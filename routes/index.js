@@ -54,7 +54,7 @@ router.param('increment', function(req, res, next, amount) {
 });
 
 /* Increments the numMembers of a specific index by an amount */
-router.put('/room/:room/:increment', function(req, res, next) {
+router.get('/room/:room/:increment', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.room.numMembers + req.increment <= req.room.maxRoomSize && req.room.numMembers + req.increment >= 0) {
     req.room.numMembers += req.increment;
@@ -71,14 +71,14 @@ router.param('password', function(req, res, next, password) {
 });
 
 /* Adds a new room of a certain subject and password */
-router.put('/add/:subject/:password', function(req, res, next) {
+router.get('/add/:subject/:password', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   rooms.push(new Room(rooms.length, req.subject, req.password));
   res.send('Success');
 });
 
 /* Increments the numMembers of a room in a subject and returns that room */
-router.put('/subject/:subject/:increment', function(req, res, next) {
+router.get('/subject/:subject/:increment', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   targetRoom = rooms.filter(room => room.subject == req.subject && room.numMembers + req.increment <= room.maxRoomSize).sort(function(a,b){return b - a})[0]; // TODO use a more efficient sort
   if (targetRoom == undefined) {
@@ -120,7 +120,7 @@ router.param('subjects', function(req, res, next, subjects) {
 });
 
 /* Sets the user's subjects to a list of comma-separated subjects */
-router.put('/user/:email/:subjects', function(req, res, next) {
+router.get('/user/:email/:subjects', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   users[req.email] = req.subjects;
   res.send('Success');
