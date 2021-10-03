@@ -81,9 +81,9 @@ router.get('/add/:subject/:password', function(req, res, next) {
 router.get('/subject/:subject/:increment', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   targetRoom = rooms.filter(room => room.subject == req.subject && room.numMembers + req.increment <= room.maxRoomSize).sort(function(a,b){return b - a})[0]; // TODO use a more efficient sort
-  if (targetRoom == undefined) {
-    res.send('Failure');
-    return;
+  if (targetRoom == undefined) { // No room found (all full or none available)
+    targetRoom = new Room(rooms.length, req.subject, ''); // TODO redo password to not be always empty
+    rooms.push(targetRoom); 
   }
   targetRoom.numMembers += req.increment;
   res.send(targetRoom.id.toString());
