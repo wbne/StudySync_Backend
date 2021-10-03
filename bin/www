@@ -5,8 +5,11 @@
  */
 
 var app = require('../app');
+var cors = require('cors');
 var debug = require('debug')('hackdfw-server:server');
 var http = require('http');
+
+app.use(cors()) // enables cross origin stuff
 
 /**
  * Get port from environment and store in Express.
